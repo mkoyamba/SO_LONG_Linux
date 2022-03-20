@@ -22,6 +22,8 @@ INCLUDES_B =	includes \
 
 LIB =	libft/libft.a
 
+ML = minilibx
+
 MLX = minilibx/libmlx.a
 
 SRC =	srcs/main.c \
@@ -55,7 +57,10 @@ OBJB = $(BONUS:bonus.c=bonus.o)
 
 all: $(NAME)
 
-$(NAME): $(OBJ)
+$(ML):
+	./minilibx.sh
+
+$(NAME): $(ML) $(OBJ)
 	@make -C minilibx
 	@make -C libft
 	gcc $(CFLAGS) $(MLX_FLAGS) $(OBJ) $(LIB) $(MLX) -o $(NAME)
@@ -67,7 +72,7 @@ $(NAME): $(OBJ)
 	@gcc $(CFLAGS) -I $(INCLUDES) -c $< -o $@
 
 
-bonus: $(OBJB)
+bonus: $(ML) $(OBJB)
 	@make -C minilibx
 	@make -C libft
 	@gcc $(CFLAGS) $(OBJB) $(LIB) $(MLX) $(MLX_FLAGS) -o $(NAME)
@@ -79,7 +84,7 @@ clean:
 fclean:
 	@make -C libft fclean
 	@make -C minilibx clean
-	@rm -rf $(OBJ) $(OBJB)
+	@rm -rf $(OBJ) $(OBJB) $(ML)
 	@rm -f $(NAME)
 
 re: fclean all
